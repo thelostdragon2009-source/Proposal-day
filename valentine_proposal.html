@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Propose Day! 💍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & VARIABLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ff9e9e;
+            --bg-color: #ffe3e3;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(180deg, #fff0f3 0%, #ffe3e3 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4a4a4a;
+        }
+
+        /* --- BACKGROUND FLOATING ELEMENTS --- */
+        .bg-elements {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .float-item {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(110vh) rotate(0deg); opacity: 0.8; }
+            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- CARD CONTAINER --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+        }
+
+        /* --- IMAGES (Fixed Sizing) --- */
+        .gif-container {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gif-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .script-font {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #d63384;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ff5252;
+        }
+
+        /* The Tricky No Button */
+        .btn-group {
+            position: relative;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            height: 60px; /* Space for moving button */
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #555;
+            box-shadow: none;
+            position: absolute; /* Allows movement */
+            right: 20px;
+        }
+        
+        .btn-yes {
+            position: absolute;
+            left: 20px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .hidden { display: none !important; }
+        
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-elements" id="bg-container"></div>
+
+    <div class="card fade-in" id="page1">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/J49QYk49o54AAAAi/bear-hello.gif" alt="Hi Bear">
+        </div>
+        <h1>Hey You! ❤️</h1>
+        <p>I have something really important to ask you...</p>
+        <button class="btn" onclick="nextPage(2)">What is it? 🤔</button>
+    </div>
+
+    <div class="card hidden" id="page2">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/b-Qk-b319Q4AAAAi/cute-bear-love.gif" alt="Nervous Bear">
+        </div>
+        <h1>I'm kinda nervous... 👉👈</h1>
+        <p>This is a big moment for me, so please don't laugh! Okay, here goes nothing...</p>
+        <button class="btn" onclick="nextPage(3)">I'm listening... 🥰</button>
+    </div>
+
+    <div class="card hidden" id="page3">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/My_7t4Y3gXQAAAAi/milk-and-mocha-bear-couple.gif" alt="Please Bear">
+        </div>
+        <h1>Will you be my <br> <span class="script-font">Valentine?</span></h1>
+        
+        <div class="btn-group">
+            <button class="btn btn-yes" onclick="nextPage(4)">YES! 💖</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="dodge()" onclick="dodge()">No</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="page4">
+        <div class="gif-container">
+            <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Happy Bear">
+        </div>
+        <h1 class="script-font" style="font-size: 3rem;">I Love You!</h1>
+        <p>You just made me the happiest person in the world!</p>
+        <h2 style="color: #ff6b6b; font-size: 1.5rem;">Happy Propose Day! 💍</h2>
+    </div>
+
+    <script>
+        // 1. Page Transition
+        function nextPage(num) {
+            // Hide all pages
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.add('hidden');
+                c.classList.remove('fade-in');
+            });
+            
+            // Show new page
+            const current = document.getElementById(`page${num}`);
+            current.classList.remove('hidden');
+            current.classList.add('fade-in');
+
+            // Add confetti on page 4
+            if(num === 4) {
+                startConfetti();
+            }
+        }
+
+        // 2. Dodge Logic (The Running No Button)
+        function dodge() {
+            const btn = document.getElementById('noBtn');
+            const card = document.querySelector('.card');
+            
+            // Get boundaries of the card so button stays inside (or mostly inside)
+            const cardRect = card.getBoundingClientRect();
+            
+            // Calculate random position
+            const maxX = cardRect.width - 100; // Keep it somewhat inside
+            const maxY = cardRect.height - 60;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // Apply new position (using fixed positioning relative to card wouldn't work easily with flex, 
+            // so we use absolute positioning within the relative button-group container? 
+            // Actually, best to make it absolute to the CARD for full freedom)
+            
+            btn.style.position = 'absolute';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            
+            // Or simpler random translation if it gets stuck
+            btn.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+        }
+
+        // 3. Floating Hearts Background
+        function createFloatingElements() {
+            const container = document.getElementById('bg-container');
+            const items = ['❤️', '💍', '🌸', '💌', '💖'];
+
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.classList.add('float-item');
+                el.innerText = items[Math.floor(Math.random() * items.length)];
+                
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10s
+                el.style.fontSize = Math.random() * 20 + 20 + 'px';
+                
+                container.appendChild(el);
+                
+                setTimeout(() => el.remove(), 10000);
+            }, 400);
+        }
+
+        // 4. Confetti Effect
+        function startConfetti() {
+            for(let i=0; i<50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = '50%';
+                confetti.style.top = '50%';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = '#ff6b6b';
+                confetti.style.zIndex = '1000';
+                
+                // Random explosion direction
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 300;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                document.body.appendChild(confetti);
+
+                confetti.animate([
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+
+        // Init
+        createFloatingElements();
+    </script>
+</body>
+</html>
